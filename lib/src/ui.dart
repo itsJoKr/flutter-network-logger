@@ -441,6 +441,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
+            fontSize: 10,
             fontFamily: 'monospace',
             fontFamilyFallback: ['sans-serif'],
           ),
