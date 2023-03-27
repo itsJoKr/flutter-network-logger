@@ -17,12 +17,14 @@ class NetworkLoggerOverlay extends StatefulWidget {
     required this.right,
     required this.bottom,
     required this.draggable,
+    required this.mini,
     Key? key,
   }) : super(key: key);
 
   final double bottom;
   final double right;
   final bool draggable;
+  final bool mini;
 
   /// Attach overlay to specified [context]. The FAB will be draggable unless
   /// [draggable] set to `false`. Initial distance from the button to the screen
@@ -32,6 +34,7 @@ class NetworkLoggerOverlay extends StatefulWidget {
     bool rootOverlay = true,
     double bottom = _defaultPadding,
     double right = _defaultPadding,
+    bool mini = false,
     bool draggable = true,
   }) {
     // create overlay entry
@@ -39,6 +42,7 @@ class NetworkLoggerOverlay extends StatefulWidget {
       builder: (context) => NetworkLoggerOverlay._(
         bottom: bottom,
         right: right,
+        mini: mini,
         draggable: draggable,
       ),
     );
@@ -124,7 +128,7 @@ class _NetworkLoggerOverlayState extends State<NetworkLoggerOverlay> {
           child: Material(
             elevation: lastPosition == null ? 0 : 30,
             borderRadius: BorderRadius.all(Radius.circular(buttonSize.width)),
-            child: NetworkLoggerButton(),
+            child: NetworkLoggerButton(mini: widget.mini),
           ),
         ),
       );
@@ -152,11 +156,15 @@ class NetworkLoggerButton extends StatefulWidget {
   /// If set to true this button will be hidden on non-debug builds.
   final bool showOnlyOnDebug;
 
+  /// If set to true this button will be smaller.
+  final bool mini;
+
   NetworkLoggerButton({
     Key? key,
     this.color = Colors.deepPurple,
     this.blinkPeriod = const Duration(seconds: 1, microseconds: 500),
     this.showOnlyOnDebug = false,
+    this.mini = false,
     NetworkEventList? eventList,
   })  : this.eventList = eventList ?? NetworkLogger.instance,
         super(key: key);
@@ -238,6 +246,7 @@ class _NetworkLoggerButtonState extends State<NetworkLoggerButton> {
         child: Icon(
           (_blink % 2 == 0) ? Icons.cloud : Icons.cloud_queue,
           color: Colors.white,
+          size: widget.mini ? 15 : 24,
         ),
         onPressed: _press,
         backgroundColor: widget.color,
