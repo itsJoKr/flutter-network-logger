@@ -242,14 +242,19 @@ class _NetworkLoggerButtonState extends State<NetworkLoggerButton> {
 
     return _DebugOnly(
       enabled: widget.showOnlyOnDebug,
-      child: FloatingActionButton(
-        child: Icon(
-          (_blink % 2 == 0) ? Icons.cloud : Icons.cloud_queue,
-          color: Colors.white,
-          size: widget.mini ? 15 : 24,
+      child: SizedBox(
+        height: widget.mini ? 32 : null,
+        width:  widget.mini ? 32 : null,
+        child: FloatingActionButton(
+          mini: true,
+          child: Icon(
+            (_blink % 2 == 0) ? Icons.cloud : Icons.cloud_queue,
+            color: Colors.white,
+            size:  widget.mini ? 20 : null
+          ),
+          onPressed: _press,
+          backgroundColor: widget.color,
         ),
-        onPressed: _press,
-        backgroundColor: widget.color,
       ),
     );
   }
@@ -277,17 +282,14 @@ class NetworkLoggerScreen extends StatelessWidget {
     );
   }
 
-  final TextEditingController searchController =
-      TextEditingController(text: null);
+  final TextEditingController searchController = TextEditingController(text: null);
 
   /// filte events with search keyword
   List<NetworkEvent> getEvents() {
     if (searchController.text.isEmpty) return eventList.events;
 
     final query = searchController.text.toLowerCase();
-    return eventList.events
-        .where((it) => it.request?.uri.toLowerCase().contains(query) ?? false)
-        .toList();
+    return eventList.events.where((it) => it.request?.uri.toLowerCase().contains(query) ?? false).toList();
   }
 
   @override
@@ -323,9 +325,8 @@ class NetworkLoggerScreen extends StatelessWidget {
                   prefixIcon: const Icon(Icons.search, color: Colors.black26),
                   suffix: ValueListenableBuilder<TextEditingValue>(
                     valueListenable: searchController,
-                    builder: (context, value, child) => value.text.isNotEmpty
-                        ? Text(getEvents().length.toString() + ' results')
-                        : const SizedBox(),
+                    builder: (context, value, child) =>
+                        value.text.isNotEmpty ? Text(getEvents().length.toString() + ' results') : const SizedBox(),
                   ),
                   hintText: "enter keyword to search",
                 ),
@@ -347,16 +348,11 @@ class NetworkLoggerScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       leading: Icon(
-                        item.error == null
-                            ? (item.response == null
-                                ? Icons.hourglass_empty
-                                : Icons.done)
-                            : Icons.error,
+                        item.error == null ? (item.response == null ? Icons.hourglass_empty : Icons.done) : Icons.error,
                       ),
                       trailing: _AutoUpdate(
                         duration: Duration(seconds: 1),
-                        builder: (context) =>
-                            Text(_timeDifference(item.timestamp!)),
+                        builder: (context) => Text(_timeDifference(item.timestamp!)),
                       ),
                       onTap: () => NetworkLoggerEventScreen.open(
                         context,
@@ -391,8 +387,7 @@ final _jsonEncoder = JsonEncoder.withIndent('  ');
 
 /// Screen that displays log entry details.
 class NetworkLoggerEventScreen extends StatelessWidget {
-  const NetworkLoggerEventScreen({Key? key, required this.event})
-      : super(key: key);
+  const NetworkLoggerEventScreen({Key? key, required this.event}) : super(key: key);
 
   static Route<void> route({
     required NetworkEvent event,
@@ -617,8 +612,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
 
 /// Widget builder that re-builds widget repeatedly with [duration] interval.
 class _AutoUpdate extends StatefulWidget {
-  const _AutoUpdate({Key? key, required this.duration, required this.builder})
-      : super(key: key);
+  const _AutoUpdate({Key? key, required this.duration, required this.builder}) : super(key: key);
 
   /// Re-build interval.
   final Duration duration;
@@ -667,8 +661,7 @@ class _AutoUpdateState extends State<_AutoUpdate> {
 }
 
 class _DebugOnly extends StatelessWidget {
-  const _DebugOnly({Key? key, required this.enabled, required this.child})
-      : super(key: key);
+  const _DebugOnly({Key? key, required this.enabled, required this.child}) : super(key: key);
 
   final bool enabled;
   final Widget child;
