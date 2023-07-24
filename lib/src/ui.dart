@@ -421,7 +421,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
     if (body == null) {
       text = '';
     } else if (body is String) {
-      text = body;
+      text = _jsonEncoder.convert(jsonDecode(body));
     } else if (body is List || body is Map) {
       text = _jsonEncoder.convert(body);
     } else {
