@@ -13,7 +13,7 @@ import 'network_logger.dart';
 class NetworkLoggerOverlay extends StatefulWidget {
   static const double _defaultPadding = 30;
 
-  const NetworkLoggerOverlay._({
+  const NetworkLoggerOverlay({
     required this.right,
     required this.bottom,
     required this.draggable,
@@ -39,7 +39,7 @@ class NetworkLoggerOverlay extends StatefulWidget {
   }) {
     // create overlay entry
     final entry = OverlayEntry(
-      builder: (context) => NetworkLoggerOverlay._(
+      builder: (context) => NetworkLoggerOverlay(
         bottom: bottom,
         right: right,
         mini: mini,
