@@ -48,10 +48,10 @@ class NetworkLoggerOverlay extends StatefulWidget {
     );
     // insert on next frame
     Future.delayed(Duration.zero, () {
-      final overlay = Overlay.of(context, rootOverlay: rootOverlay);
+      final overlay = Overlay.maybeOf(context, rootOverlay: rootOverlay);
 
       if (overlay == null) {
-        throw Exception(
+        throw FlutterError(
           'FlutterNetworkLogger:  No Overlay widget found. '
           '                       The most common way to add an Overlay to an application is to include a MaterialApp or Navigator above widget that calls NetworkLoggerOverlay.attachTo()',
         );
@@ -483,7 +483,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 5),
-          child: Text('URL', style: Theme.of(context).textTheme.caption),
+          child: Text('URL', style: Theme.of(context).textTheme.bodySmall),
         ),
         SizedBox(height: 5),
         Padding(
@@ -493,7 +493,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
             children: <Widget>[
               Text(
                 event.request!.method,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               SizedBox(width: 15),
               Expanded(child: SelectableText(event.request!.uri.toString())),
@@ -502,7 +502,8 @@ class NetworkLoggerEventScreen extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-          child: Text('TIMESTAMP', style: Theme.of(context).textTheme.caption),
+          child:
+              Text('TIMESTAMP', style: Theme.of(context).textTheme.bodySmall),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -511,14 +512,15 @@ class NetworkLoggerEventScreen extends StatelessWidget {
         if (event.request!.headers.isNotEmpty) ...[
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-            child: Text('HEADERS', style: Theme.of(context).textTheme.caption),
+            child:
+                Text('HEADERS', style: Theme.of(context).textTheme.bodySmall),
           ),
           buildHeadersViewer(context, event.request!.headers.entries),
         ],
         if (event.error != null) ...[
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-            child: Text('ERROR', style: Theme.of(context).textTheme.caption),
+            child: Text('ERROR', style: Theme.of(context).textTheme.bodySmall),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -530,7 +532,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
         ],
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-          child: Text('BODY', style: Theme.of(context).textTheme.caption),
+          child: Text('BODY', style: Theme.of(context).textTheme.bodySmall),
         ),
         buildBodyViewer(context, event.request!.data),
       ],
@@ -543,7 +545,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 5),
-          child: Text('RESULT', style: Theme.of(context).textTheme.caption),
+          child: Text('RESULT', style: Theme.of(context).textTheme.bodySmall),
         ),
         SizedBox(height: 5),
         Padding(
@@ -553,7 +555,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
             children: <Widget>[
               Text(
                 event.response!.statusCode.toString(),
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               SizedBox(width: 15),
               Expanded(child: Text(event.response!.statusMessage)),
@@ -563,7 +565,8 @@ class NetworkLoggerEventScreen extends StatelessWidget {
         if (event.response?.headers.isNotEmpty ?? false) ...[
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-            child: Text('HEADERS', style: Theme.of(context).textTheme.caption),
+            child:
+                Text('HEADERS', style: Theme.of(context).textTheme.bodySmall),
           ),
           buildHeadersViewer(
             context,
@@ -572,7 +575,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
         ],
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-          child: Text('BODY', style: Theme.of(context).textTheme.caption),
+          child: Text('BODY', style: Theme.of(context).textTheme.bodySmall),
         ),
         buildBodyViewer(context, event.response?.data),
       ],
@@ -600,12 +603,13 @@ class NetworkLoggerEventScreen extends StatelessWidget {
           bottom: (bottom as PreferredSizeWidget?),
         ),
         body: Builder(
-            builder: (context) => TabBarView(
-                  children: <Widget>[
-                    buildRequestView(context),
-                    if (showResponse) buildResponseView(context),
-                  ],
-                )),
+          builder: (context) => TabBarView(
+            children: <Widget>[
+              buildRequestView(context),
+              if (showResponse) buildResponseView(context),
+            ],
+          ),
+        ),
       ),
     );
   }
