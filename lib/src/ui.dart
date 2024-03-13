@@ -296,10 +296,18 @@ class NetworkLoggerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Network Logs'),
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
+          'Network Logs',
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: Icon(
+              Icons.delete,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
             onPressed: () => eventList.clear(),
           ),
         ],
