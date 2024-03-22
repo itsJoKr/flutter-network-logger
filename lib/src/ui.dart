@@ -352,7 +352,7 @@ class NetworkLoggerScreen extends StatelessWidget {
                       ),
                       subtitle: Text(
                         item.request!.uri.toString(),
-                        maxLines: 1,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
                       leading: Icon(
@@ -607,6 +607,8 @@ class NetworkLoggerEventScreen extends StatelessWidget {
       length: showResponse ? 2 : 1,
       child: Scaffold(
         appBar: AppBar(
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           title: Text('Log Entry'),
           bottom: (bottom as PreferredSizeWidget?),
         ),
