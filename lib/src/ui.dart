@@ -243,8 +243,8 @@ class _NetworkLoggerButtonState extends State<NetworkLoggerButton> {
     return _DebugOnly(
       enabled: widget.showOnlyOnDebug,
       child: SizedBox(
-        height: widget.mini ? 32 : null,
-        width:  widget.mini ? 32 : null,
+        height: widget.mini ? 28 : null,
+        width:  widget.mini ? 28 : null,
         child: FloatingActionButton(
           mini: true,
           child: Icon(
@@ -253,7 +253,7 @@ class _NetworkLoggerButtonState extends State<NetworkLoggerButton> {
             size:  widget.mini ? 20 : null
           ),
           onPressed: _press,
-          backgroundColor: widget.color,
+          backgroundColor: widget.color.withOpacity(0.4),
         ),
       ),
     );
