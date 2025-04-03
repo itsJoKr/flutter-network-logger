@@ -443,7 +443,7 @@ class NetworkLoggerEventScreen extends StatelessWidget {
     } else {
       text = body.toString();
     }
-    
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -606,8 +606,20 @@ class NetworkLoggerEventScreen extends StatelessWidget {
     Widget? bottom;
     if (showResponse) {
       bottom = TabBar(tabs: [
-        Tab(text: 'Request'),
-        Tab(text: 'Response'),
+        Tab(
+          child: Text(
+            'Request',
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Tab(
+          child: Text(
+            'Response',
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ]);
     }
 
