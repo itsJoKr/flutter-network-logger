@@ -429,12 +429,21 @@ class NetworkLoggerEventScreen extends StatelessWidget {
     if (body == null) {
       text = '';
     } else if (body is String) {
-      text = _jsonEncoder.convert(jsonDecode(body));
+      try {
+        text = _jsonEncoder.convert(jsonDecode(body));
+      } catch (e, s) {
+        text = body;
+      }
     } else if (body is List || body is Map) {
-      text = _jsonEncoder.convert(body);
+      try {
+        text = _jsonEncoder.convert(body);
+      } catch (e, s) {
+        text = body.toString();
+      }
     } else {
       text = body.toString();
     }
+    
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 15),
